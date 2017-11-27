@@ -55,7 +55,7 @@
 			<option value = '5'>5 (Strongly Agree)</option>
 		</select>
 
-		<!--<h3><strong>Question 4</strong></h3>
+		<h3><strong>Question 4</strong></h3>
 		<h4>You rarely do something just out of sheer curiosity.</h4>
 		<select class ='form-control' id = "q4">
 			<option value></option>
@@ -130,7 +130,7 @@
 			<option value = '3'>3</option>
 			<option value = '4'>4</option>
 			<option value = '5'>5 (Strongly Agree)</option>
-		</select>-->
+		</select>
 		<hr>
 		<button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
 
@@ -163,6 +163,7 @@
 		$("#submit").on('click', function(event){
 			event.preventDefault();
 
+			//Determines if the user has filled in each of the questions in the survey. 
 			function filledOut(){
 				var isFilled = true;
 				$(".form-control").each(function(){
@@ -173,37 +174,52 @@
 				return isFilled;
 			}
 
+			//If the user has filled in each of the survey questions at time of clicking submit, then the below will run. 
 			if(filledOut() === true){
+				//Stores the user's inputs to an object. 
 				var userInput = {
 					name: $('#name').val(),
 					photo: $('#photo').val(),
 					questions: [$('#q1').val(), $('#q2').val(), $('#q3').val(), $('#q4').val(), $('#q5').val(), $('#q6').val(), $('#q7').val(), $('#q8').val(), $('#q9').val(), $('#q10').val(),]
 				};
 
+				//Gets the current URL
 				var currURL = window.location.origin;
+
+				//Used to prevent the ajax call appending a '[]' to the end of array elements in the objects that are sent through the call. 
 				$.ajaxSetup({
 					traditional: true
 				});
-				console.log(userInput);
+
+				//Posts the data the user has input, then obtains return data that is used to populate the modal. 
 				$.post(currURL + "/api/friends", userInput, function(data){
-					
-						//console.log(data);
-						// $("#modalHeader").text(data[0]);
-						$("#modalHeader").text(data.name);
-						var src = data.photo;
-						$("#modalImg").attr("src", src);
-						$("#friendModal").modal('toggle');
-					
+					$("#modalHeader").text(data.name);
+					var src = data.photo;
+					$("#modalImg").attr("src", src);
+					$("#friendModal").modal('toggle');
 				});
 
-
+				//Empties the survey question values. 
+				$('#name').val("");
+				$('#photo').val("");
+				$('#q1').val(""); 
+				$('#q2').val(""); 
+				$('#q3').val(""); 
+				$('#q4').val(""); 
+				$('#q5').val("");
+				$('#q6').val("");
+				$('#q7').val("");
+				$('#q8').val("");
+				$('#q9').val("");
+				$('#q10').val("");
 			}
+
+			//If the user has not completed every question, they will get an alert to finish the entire survey. 
 			else{
-				console.log("Please complete the entire survey");
+				alert("Please complete the entire survey.");
 			}
 		})
 	</script>
-
 </body>
 </html>	
 
