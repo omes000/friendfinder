@@ -141,7 +141,8 @@
 						<h4 class = 'modal-title' id = 'modalHeader'></h4>
 					</div>
 					<div class = 'modal-body'>
-						<img id="modalImg">
+						<p id = "modalName"></p>
+						<img id="modalImg" width = "100px">
 					</div>
 					<div class = 'modal-footer'>
 						<button type = 'button' class = 'btn btn-default' data-dismiss = 'modal'>Close</button>
@@ -193,7 +194,8 @@
 
 				//Posts the data the user has input, then obtains return data that is used to populate the modal. 
 				$.post(currURL + "/api/friends", userInput, function(data){
-					$("#modalHeader").text(data.name);
+					$("#modalHeader").text("Your closest friend is:");
+					$("#modalName").text(data.name);
 					var src = data.photo;
 					$("#modalImg").attr("src", src);
 					$("#friendModal").modal('toggle');
